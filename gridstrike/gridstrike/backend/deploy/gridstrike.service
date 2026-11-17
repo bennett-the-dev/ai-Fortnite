@@ -1,0 +1,23 @@
+# /etc/systemd/system/gridstrike.service
+[Unit]
+Description=GRIDSTRIKE game backend
+After=network.target
+
+[Service]
+User=gridstrike
+Group=gridstrike
+WorkingDirectory=/opt/gridstrike
+EnvironmentFile=/etc/gridstrike/gridstrike.env
+ExecStart=/usr/bin/node backend/server.js
+Restart=always
+RestartSec=2
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/gridstrike /var/log/gridstrike
+# Logs go to journald: journalctl -u gridstrike -f
+
+[Install]
+WantedBy=multi-user.target
